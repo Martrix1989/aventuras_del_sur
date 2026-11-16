@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Inicio | Aventuras del Sur{% endblock %}
+{% block content %}
+<div class="hero-panel">
+    <div class="hero-copy">
+        <span class="eyebrow">NATURALEZA · AVENTURA · EXPERIENCIAS</span>
+        <h1>Explora el sur,<br>vive la aventura.</h1>
+        <p>Descubre actividades al aire libre y reserva tu próxima experiencia en la naturaleza.</p>
+        <a class="btn btn-light btn-lg" href="{% url 'experiencias:lista' %}">Ver experiencias</a>
+        {% if not user.is_authenticated %}<a class="btn btn-outline-light btn-lg ml-2" href="{% url 'cuentas:login' %}">Iniciar sesión</a>{% endif %}
+    </div>
+    <div class="hero-icon"><i class="fas fa-mountain"></i></div>
+</div>
+<div class="section-heading"><div><span class="eyebrow">DESCUBRE</span><h2>Experiencias destacadas</h2></div><a href="{% url 'experiencias:lista' %}">Ver catálogo <i class="fas fa-arrow-right"></i></a></div>
+<div class="row">
+    {% for experiencia in experiencias %}
+    <div class="col-md-4 mb-4"><div class="experience-card h-100"><div class="experience-icon"><i class="fas fa-tree"></i></div><div class="p-4"><span class="category-pill">{{ experiencia.categoria.nombre }}</span><h4 class="mt-3">{{ experiencia.titulo }}</h4><p>{{ experiencia.descripcion|truncatewords:22 }}</p><div class="card-meta"><strong>${{ experiencia.precio|floatformat:0 }}</strong><span>{{ experiencia.fecha_hora|date:'d/m/Y H:i' }}</span></div></div></div></div>
+    {% empty %}<div class="col-12"><div class="empty-state">Pronto publicaremos nuevas experiencias.</div></div>{% endfor %}
+</div>
+{% endblock %}

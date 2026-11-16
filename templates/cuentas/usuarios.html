@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Usuarios | Aventuras del Sur{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Usuarios</h1><p>Gestión de cuentas y roles del sistema.</p></div><a class="btn btn-primary" href="{% url 'cuentas:usuario_nuevo' %}"><i class="fas fa-plus"></i> Crear usuario</a></div>
+<div class="content-card"><div class="table-responsive"><table class="table table-hover datatable"><thead><tr><th>Usuario</th><th>Nombre completo</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+{% for item in usuarios %}<tr><td>{{ item.username }}</td><td>{{ item.get_full_name|default:'—' }}</td><td>{{ item.email|default:'—' }}</td><td>{{ item.get_rol_display }}</td><td>{% if item.is_active %}<span class="badge badge-success">Activo</span>{% else %}<span class="badge badge-secondary">Inactivo</span>{% endif %}</td><td><a class="btn btn-sm btn-outline-primary" href="{% url 'cuentas:usuario_editar' item.pk %}">Editar</a>{% if item != user %}<form class="d-inline" method="post" action="{% url 'cuentas:usuario_eliminar' item.pk %}" onsubmit="return confirm('¿Eliminar este usuario?');">{% csrf_token %}<button class="btn btn-sm btn-outline-danger">Eliminar</button></form>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Panel | Aventuras del Sur{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">RESUMEN GENERAL</span><h1>Panel de control</h1><p>Bienvenido/a, {{ user.get_full_name|default:user.username }}.</p></div></div>
+<div class="row">
+    <div class="col-md-4 mb-4"><div class="stat-card stat-blue"><div><span>Experiencias</span><h2>{{ total_experiencias }}</h2></div><i class="fas fa-hiking"></i></div></div>
+    <div class="col-md-4 mb-4"><div class="stat-card stat-green"><div><span>Reservas</span><h2>{{ total_reservas }}</h2></div><i class="fas fa-calendar-check"></i></div></div>
+    {% if user.rol == 'admin' %}<div class="col-md-4 mb-4"><div class="stat-card stat-orange"><div><span>Usuarios</span><h2>{{ total_usuarios }}</h2></div><i class="fas fa-users"></i></div></div>{% endif %}
+</div>
+<div class="content-card"><h3>Accesos rápidos</h3><div class="quick-links"><a href="{% url 'experiencias:lista' %}"><i class="fas fa-list"></i><span>Ver experiencias</span></a><a href="{% url 'experiencias:reservas' %}"><i class="fas fa-ticket-alt"></i><span>Ver reservas</span></a>{% if user.rol == 'admin' or user.rol == 'guia' %}<a href="{% url 'experiencias:crear' %}"><i class="fas fa-plus-circle"></i><span>Nueva experiencia</span></a>{% endif %}{% if user.rol == 'admin' %}<a href="{% url 'experiencias:categorias' %}"><i class="fas fa-tags"></i><span>Administrar categorías</span></a><a href="{% url 'cuentas:usuarios' %}"><i class="fas fa-user-cog"></i><span>Administrar usuarios</span></a>{% endif %}</div></div>
+{% endblock %}
